@@ -47,6 +47,7 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(fmt.Sprintf(`{"code": 400, "msg": "%s"}`, err.Error())))
+		return
 	}
 	w.Write([]byte(fmt.Sprintf(`{"code": 200, "url": "%s"}`, url)))
 }
