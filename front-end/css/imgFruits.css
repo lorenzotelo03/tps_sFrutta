@@ -1,0 +1,13 @@
+.imgFruit {
+    max-width: 400px;
+    max-height: auto;
+}
+
+.card-title {
+    text-align: center;
+}
+
+.card{
+    margin: 15px;
+    cursor: pointer;
+}
