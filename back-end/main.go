@@ -48,6 +48,7 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(fmt.Sprintf(`{"code": 400, "msg": "%s"}`, err.Error())))
 		return
+
 	}
 	w.Write([]byte(fmt.Sprintf(`{"code": 200, "url": "%s"}`, url)))
 }
@@ -58,7 +59,7 @@ func main() {
 		port = "8080"
 	}
 	r := mux.NewRouter()
-	r.HandleFunc("/{id}", HomePageHandler).Methods("GET")
+	r.HandleFunc("/{id}", HomePageHandler).Methods("GET", "OPTIONS")
 
 	log.Println("starting on", ":"+port)
 	log.Fatal(http.ListenAndServe(":"+port, r))
