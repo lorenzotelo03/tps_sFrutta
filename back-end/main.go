@@ -54,6 +54,33 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(fmt.Sprintf(`{"code": 200, "url": "%s"}`, url)))
 }
 
+func GetFruitJson(thing string) ([]byte, error) {
+	response, err := http.Get("https://fruityvice.com/api/fruit/" + thing)
+	if err != nil {
+		return []byte(""), err
+	}
+	defer response.Body.Close()
+
+	dataInBytes, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return []byte(""), err
+	}
+
+	return dataInBytes, nil
+}
+
+func FruitHandler(w http.ResponseWriter, r *http.Request) {
+	json, err := GetFruitJson(mux.Vars(r)["id"])
+	w.Header().Set("Content-Type", "application/json")
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(fmt.Sprintf(`{"code": 400, "msg": "%s"}`, err.Error())))
+		return
+
+	}
+	w.Write(json)
+}
+
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -61,11 +88,12 @@ func main() {
 	}
 	r := mux.NewRouter()
 
-	r.HandleFunc("/{id}", HomePageHandler).Methods("GET", "OPTIONS")
+	r.HandleFunc("/img/{id}", HomePageHandler).Methods("GET", "OPTIONS")
+	r.HandleFunc("/fruit/{id}", FruitHandler).Methods("GET", "OPTIONS")
 
 	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With"})
-	originsOk := handlers.AllowedOrigins([]string{"*"})
 	methodsOk := handlers.AllowedMethods([]string{"GET"})
+	originsOk := handlers.AllowedOrigins([]string{"*"})
 
 	log.Println("starting on", ":"+port)
 	log.Fatal(http.ListenAndServe(":"+port, handlers.CORS(originsOk, headersOk, methodsOk)(r)))
