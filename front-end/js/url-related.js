@@ -1,11 +1,9 @@
 //Penso sia una soluzione accettabile per non avere un backend che gestisca gli url
 // "use strict"
 let url = window.location.search.slice(1);
-let singlePage
 
 //controlla l'url e fa una redirect in base alle scente dell'utente
 function checkUrl(isSinglePage) {
-    singlePage = isSinglePage;
     //controlla che l'url sia o non sia vuoto in base al valore di "isSinglePage" che per la pagina del singolo frutto 
     //verrá passata la string '=' invece per l'index verrá passato '!' in modo da negare la condizione usando eval che dato 
     //un codice valido scritto in javascript ritorna il valore dell'esecuzione di esso
@@ -17,6 +15,6 @@ function checkUrl(isSinglePage) {
     }
 }
 
-function redirectSearch() {
-
+function redirect(id) {
+    window.location.href = "/front-end/single-page.html?" + id;
 }

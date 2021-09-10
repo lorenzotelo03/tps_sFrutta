@@ -29,9 +29,10 @@
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="cerca" placeholder="Cerca" aria-label="Cerca">
-                <button class="btn btn-outline-success my-2 my-sm-0" onclick="redirectSearch()"
-                    type="button">Cerca</button>
+                <input id="searchTextBox" class="form-control mr-sm-2" type="cerca" placeholder="Cerca"
+                    aria-label="Cerca">
+                <button class="btn btn-outline-success my-2 my-sm-0"
+                    onclick="redirect(document.getElementById('searchTextBox').value)" type="button">Cerca</button>
             </form>
         </div>
     </nav>
