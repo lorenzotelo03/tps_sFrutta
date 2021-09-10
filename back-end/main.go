@@ -9,6 +9,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
@@ -59,8 +60,13 @@ func main() {
 		port = "8080"
 	}
 	r := mux.NewRouter()
+
 	r.HandleFunc("/{id}", HomePageHandler).Methods("GET", "OPTIONS")
 
+	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With"})
+	originsOk := handlers.AllowedOrigins([]string{"*"})
+	methodsOk := handlers.AllowedMethods([]string{"GET"})
+
 	log.Println("starting on", ":"+port)
-	log.Fatal(http.ListenAndServe(":"+port, r))
+	log.Fatal(http.ListenAndServe(":"+port, handlers.CORS(originsOk, headersOk, methodsOk)(r)))
 }
