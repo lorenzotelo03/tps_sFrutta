@@ -109,7 +109,6 @@ function drawSort() {
 
     google.visualization.events.addListener(table, 'sort',
         function (event) {
-            console.log(event);
             data.sort([{ column: event.column, desc: !event.ascending }]);
             view.setColumns([0, event.column]);
             chart.draw(view);
