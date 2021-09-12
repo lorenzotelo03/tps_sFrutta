@@ -1,26 +1,25 @@
-google.charts.load('current', {'packages':['corechart']});
+google.charts.load('current', { 'packages': ['corechart'] });
 google.charts.setOnLoadCallback(drawChart);
 document.getElementById("title").innerHTML = url;
 document.getElementById("wikipedia").href = 'https://www.wikipedia.com/wiki/' + url;
 
-async function getFruitData(){
-    const response = await fetch('https://lore-images.herokuapp.com/fruit/'+ url);
+async function getFruitData() {
+    const response = await fetch('https://lore-images.herokuapp.com/fruit/' + url);
     var fruitData = await response.json();
-    if ("error" in fruitData){
+    if ("error" in fruitData) {
         window.location.href = '/front-end/404.html';
-        
+
     }
     return fruitData;
 }
-async function drawChart(){
+async function drawChart() {
     var fruitData = await getFruitData();
-    console.log(fruitData);
     var data = google.visualization.arrayToDataTable([
-        ['Nutritional values' , 'grams over 100 grams'],
-        ['Fat',     fruitData.nutritions.fat],
-        ['Sugar',     fruitData.nutritions.sugar],
-        ['Protein',     fruitData.nutritions.protein],
-        ['Carbohydrates',     fruitData.nutritions.carbohydrates]
+        ['Nutritional values', 'grams over 100 grams'],
+        ['Fat', fruitData.nutritions.fat],
+        ['Sugar', fruitData.nutritions.sugar],
+        ['Protein', fruitData.nutritions.protein],
+        ['Carbohydrates', fruitData.nutritions.carbohydrates]
     ]);
     var options = {
         title: 'Fruit datas'
